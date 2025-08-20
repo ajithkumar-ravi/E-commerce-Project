@@ -3,7 +3,7 @@ import { ShoppingCart, Search, Menu, X, User, Heart } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
-import { cartUtils } from '../mock';
+import { cartUtils, wishlistUtils } from '../mock';
 
 export const Header = ({ onCartClick, onCategoryFilter }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
