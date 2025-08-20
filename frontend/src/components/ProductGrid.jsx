@@ -89,19 +89,28 @@ export const ProductGrid = () => {
         }}
       >
         <div className="relative overflow-hidden">
-          {/* Enhanced Product Image */}
+          {/* Enhanced Product Image with advanced hover effects */}
           <div className="aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 relative">
             <img
               src={product.image}
               alt={product.name}
               className={`w-full h-full object-cover transition-all duration-700 ${
-                hoveredProduct === product.id ? 'scale-110 rotate-2' : 'scale-100'
+                hoveredProduct === product.id 
+                  ? 'scale-110 rotate-1 brightness-110' 
+                  : 'scale-100 rotate-0 brightness-100'
               }`}
             />
             
-            {/* Enhanced Image Overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent transition-opacity duration-300 ${
+            {/* Enhanced Image Overlay with gradient animation */}
+            <div className={`absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent transition-all duration-500 ${
               hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+            }`} />
+            
+            {/* Animated shine effect on hover */}
+            <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transition-all duration-700 ${
+              hoveredProduct === product.id 
+                ? 'translate-x-full opacity-100' 
+                : '-translate-x-full opacity-0'
             }`} />
           </div>
 
