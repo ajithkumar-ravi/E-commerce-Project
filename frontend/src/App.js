@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { ProductGrid } from "./components/ProductGrid";
+import { Testimonials } from "./components/Testimonials";
 import { ShoppingCart } from "./components/ShoppingCart";
 import { Checkout } from "./components/Checkout";
 import { Footer } from "./components/Footer";
@@ -61,6 +62,9 @@ const Home = () => {
       
       {/* Product Grid */}
       <ProductGrid />
+      
+      {/* Testimonials Section */}
+      <Testimonials />
       
       {/* Footer */}
       <Footer />

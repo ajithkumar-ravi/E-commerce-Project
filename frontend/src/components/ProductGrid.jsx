@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Card, CardContent } from './ui/card';
-import { Star, ShoppingCart, Heart, Eye, Filter, Grid, List } from 'lucide-react';
+import { Star, ShoppingCart, Heart, Eye, Filter, Grid, List, Zap, TrendingUp } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { mockProducts, mockCategories, cartUtils } from '../mock';
 import { useToast } from '../hooks/use-toast';
@@ -57,123 +57,173 @@ export const ProductGrid = () => {
     });
   };
 
-  const ProductCard = ({ product }) => (
-    <Card 
-      className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-      onMouseEnter={() => setHoveredProduct(product.id)}
-      onMouseLeave={() => setHoveredProduct(null)}
-    >
-      <div className="relative overflow-hidden">
-        {/* Product Image */}
-        <div className="aspect-square overflow-hidden bg-gray-100">
-          <img
-            src={product.image}
-            alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-500 ${
-              hoveredProduct === product.id ? 'scale-110' : 'scale-100'
-            }`}
-          />
-        </div>
+  const ProductCard = ({ product }) => {
+    const discountPercentage = product.originalPrice 
+      ? Math.round((1 - product.price / product.originalPrice) * 100)
+      : 0;
 
-        {/* Sale Badge */}
-        {product.originalPrice && product.originalPrice > product.price && (
-          <Badge className="absolute top-3 left-3 bg-red-500 hover:bg-red-600">
-            SALE
-          </Badge>
-        )}
-
-        {/* Quick Actions */}
-        <div className={`absolute top-3 right-3 flex flex-col gap-2 transition-opacity duration-300 ${
-          hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
-        }`}>
-          <Button size="icon" variant="secondary" className="bg-white/90 hover:bg-white">
-            <Heart className="h-4 w-4" />
-          </Button>
-          <Button size="icon" variant="secondary" className="bg-white/90 hover:bg-white">
-            <Eye className="h-4 w-4" />
-          </Button>
-        </div>
-
-        {/* Add to Cart Overlay */}
-        <div className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 transition-transform duration-300 ${
-          hoveredProduct === product.id ? 'translate-y-0' : 'translate-y-full'
-        }`}>
-          <Button 
-            className="w-full bg-white text-black hover:bg-gray-100"
-            onClick={() => handleAddToCart(product)}
-          >
-            <ShoppingCart className="mr-2 h-4 w-4" />
-            Add to Cart
-          </Button>
-        </div>
-      </div>
-
-      <CardContent className="p-4">
-        {/* Product Info */}
-        <div className="space-y-2">
-          <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-orange-600 transition-colors">
-            {product.name}
-          </h3>
-          
-          {/* Rating */}
-          <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`h-4 w-4 ${
-                  i < Math.floor(product.rating)
-                    ? 'fill-orange-400 text-orange-400'
-                    : 'text-gray-300'
-                }`}
-              />
-            ))}
-            <span className="text-sm text-gray-600 ml-1">
-              {product.rating} ({product.reviews})
-            </span>
+    return (
+      <Card 
+        className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white"
+        onMouseEnter={() => setHoveredProduct(product.id)}
+        onMouseLeave={() => setHoveredProduct(null)}
+      >
+        <div className="relative overflow-hidden">
+          {/* Enhanced Product Image */}
+          <div className="aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 relative">
+            <img
+              src={product.image}
+              alt={product.name}
+              className={`w-full h-full object-cover transition-all duration-700 ${
+                hoveredProduct === product.id ? 'scale-110 rotate-2' : 'scale-100'
+              }`}
+            />
+            
+            {/* Enhanced Image Overlay */}
+            <div className={`absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent transition-opacity duration-300 ${
+              hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+            }`} />
           </div>
 
-          {/* Price */}
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-gray-900">
-              ${product.price}
-            </span>
-            {product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-sm text-gray-500 line-through">
-                ${product.originalPrice}
+          {/* Enhanced Sale Badge */}
+          {product.originalPrice && product.originalPrice > product.price && (
+            <div className="absolute top-3 left-3 flex items-center gap-2">
+              <Badge className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold shadow-lg">
+                <Zap className="mr-1 h-3 w-3" />
+                -{discountPercentage}%
+              </Badge>
+            </div>
+          )}
+
+          {/* Trending Badge for high rated products */}
+          {product.rating >= 4.7 && (
+            <div className="absolute top-3 right-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg">
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+              TRENDING
+            </div>
+          )}
+
+          {/* Enhanced Quick Actions */}
+          <div className={`absolute top-3 right-3 flex flex-col gap-2 transition-all duration-300 ${
+            hoveredProduct === product.id ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+          }`}>
+            <Button size="icon" variant="secondary" className="bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300">
+              <Heart className="h-4 w-4 text-red-500" />
+            </Button>
+            <Button size="icon" variant="secondary" className="bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300">
+              <Eye className="h-4 w-4 text-blue-500" />
+            </Button>
+          </div>
+
+          {/* Enhanced Add to Cart Overlay */}
+          <div className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 transition-all duration-500 ${
+            hoveredProduct === product.id ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+          }`}>
+            <Button 
+              className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-xl transform hover:scale-105 transition-all duration-300"
+              onClick={() => handleAddToCart(product)}
+            >
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Add to Cart
+            </Button>
+          </div>
+        </div>
+
+        <CardContent className="p-6 space-y-3">
+          {/* Enhanced Product Info */}
+          <div className="space-y-3">
+            <h3 className="font-bold text-gray-900 line-clamp-2 group-hover:text-orange-600 transition-colors text-lg leading-tight">
+              {product.name}
+            </h3>
+            
+            {/* Enhanced Rating */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-4 w-4 transition-colors duration-300 ${
+                        i < Math.floor(product.rating)
+                          ? 'fill-orange-400 text-orange-400'
+                          : 'text-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-gray-600 font-medium">
+                  {product.rating}
+                </span>
+              </div>
+              <span className="text-xs text-gray-500">
+                ({product.reviews} reviews)
               </span>
-            )}
-          </div>
+            </div>
 
-          {/* Category */}
-          <Badge variant="outline" className="text-xs">
-            {product.category}
-          </Badge>
-        </div>
-      </CardContent>
-    </Card>
-  );
+            {/* Enhanced Price */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-xl font-bold text-gray-900">
+                  ${product.price}
+                </span>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span className="text-sm text-gray-500 line-through">
+                    ${product.originalPrice}
+                  </span>
+                )}
+              </div>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="text-sm font-bold text-green-600">
+                  Save ${(product.originalPrice - product.price).toFixed(2)}
+                </span>
+              )}
+            </div>
+
+            {/* Enhanced Category Badge */}
+            <div className="flex justify-between items-center">
+              <Badge variant="outline" className="text-xs font-semibold border-orange-200 text-orange-700 bg-orange-50">
+                {product.category}
+              </Badge>
+              {product.inStock && (
+                <span className="text-xs text-green-600 font-semibold flex items-center gap-1">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  In Stock
+                </span>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
-    <section id="products" className="py-16 bg-gray-50">
+    <section id="products" className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        {/* Enhanced Section Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium bg-white/80 backdrop-blur-sm text-orange-800 border-orange-200 shadow-lg mb-6">
+            <TrendingUp className="mr-2 h-4 w-4 text-orange-500" />
+            <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent font-bold">
+              Trending Products
+            </span>
+          </div>
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Featured Products
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Discover our carefully curated collection of premium products, 
-            each selected for quality, style, and value.
+            each selected for quality, style, and exceptional value.
           </p>
         </div>
 
-        {/* Filters and Controls */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8 items-start sm:items-center justify-between">
+        {/* Enhanced Filters and Controls */}
+        <div className="flex flex-col sm:flex-row gap-6 mb-12 items-start sm:items-center justify-between bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
           <div className="flex flex-wrap gap-4">
-            {/* Category Filter */}
+            {/* Enhanced Category Filter */}
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-[180px]">
-                <Filter className="mr-2 h-4 w-4" />
+              <SelectTrigger className="w-[200px] border-2 hover:border-orange-300 transition-colors">
+                <Filter className="mr-2 h-4 w-4 text-orange-500" />
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
@@ -185,54 +235,67 @@ export const ProductGrid = () => {
               </SelectContent>
             </Select>
 
-            {/* Sort Filter */}
+            {/* Enhanced Sort Filter */}
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[200px] border-2 hover:border-orange-300 transition-colors">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="featured">Featured</SelectItem>
-                <SelectItem value="newest">Newest</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
+                <SelectItem value="featured">⭐ Featured</SelectItem>
+                <SelectItem value="newest">🆕 Newest</SelectItem>
+                <SelectItem value="price-low">💰 Price: Low to High</SelectItem>
+                <SelectItem value="price-high">💎 Price: High to Low</SelectItem>
+                <SelectItem value="rating">🏆 Highest Rated</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          {/* View Mode Toggle */}
-          <div className="flex items-center gap-2">
+          {/* Enhanced View Mode Toggle */}
+          <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
             <Button
-              variant={viewMode === 'grid' ? 'default' : 'outline'}
-              size="icon"
+              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              size="sm"
               onClick={() => setViewMode('grid')}
+              className={`transition-all duration-300 ${viewMode === 'grid' ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600' : ''}`}
             >
               <Grid className="h-4 w-4" />
             </Button>
             <Button
-              variant={viewMode === 'list' ? 'default' : 'outline'}
-              size="icon"
+              variant={viewMode === 'list' ? 'default' : 'ghost'}
+              size="sm"
               onClick={() => setViewMode('list')}
+              className={`transition-all duration-300 ${viewMode === 'list' ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600' : ''}`}
             >
               <List className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className={`grid gap-6 ${
+        {/* Enhanced Products Grid */}
+        <div className={`grid gap-8 ${
           viewMode === 'grid' 
             ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
             : 'grid-cols-1'
         }`}>
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {filteredProducts.map((product, index) => (
+            <div
+              key={product.id}
+              className="animate-fadeIn"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
 
-        {/* Load More Button */}
-        <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="px-8">
+        {/* Enhanced Load More Button */}
+        <div className="text-center mt-16">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="px-12 py-4 text-lg border-2 border-orange-200 hover:bg-orange-50 hover:border-orange-300 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            <TrendingUp className="mr-2 h-5 w-5" />
             Load More Products
           </Button>
         </div>
