@@ -4,7 +4,7 @@ import { Badge } from './ui/badge';
 import { Card, CardContent } from './ui/card';
 import { Star, ShoppingCart, Heart, Eye, Filter, Grid, List, Zap, TrendingUp } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { mockProducts, mockCategories, cartUtils } from '../mock';
+import { mockProducts, mockCategories, cartUtils, wishlistUtils } from '../mock';
 import { useToast } from '../hooks/use-toast';
 
 export const ProductGrid = () => {
