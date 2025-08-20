@@ -57,6 +57,21 @@ export const ProductGrid = () => {
     });
   };
 
+  const handleToggleWishlist = (product) => {
+    const isInWishlist = wishlistUtils.isInWishlist(product.id);
+    wishlistUtils.toggleWishlist(product);
+    
+    // Trigger custom event to update wishlist count
+    window.dispatchEvent(new CustomEvent('wishlistUpdated'));
+    
+    toast({
+      title: isInWishlist ? "Removed from wishlist" : "Added to wishlist!",
+      description: isInWishlist 
+        ? `${product.name} has been removed from your wishlist.`
+        : `${product.name} has been added to your wishlist.`,
+    });
+  };
+
   const ProductCard = ({ product }) => {
     const discountPercentage = product.originalPrice 
       ? Math.round((1 - product.price / product.originalPrice) * 100)
