@@ -5,26 +5,30 @@ import { Input } from './ui/input';
 import { Badge } from './ui/badge';
 import { cartUtils, wishlistUtils } from '../mock';
 
-export const Header = ({ onCartClick, onCategoryFilter }) => {
+export const Header = ({ onCartClick, onWishlistClick, onCategoryFilter }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [wishlistItemCount, setWishlistItemCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    // Update cart count on component mount and when cart changes
-    const updateCartCount = () => {
+    // Update cart and wishlist counts on component mount and when they change
+    const updateCounts = () => {
       setCartItemCount(cartUtils.getCartItemCount());
+      setWishlistItemCount(wishlistUtils.getWishlistItemCount());
     };
     
-    updateCartCount();
+    updateCounts();
     
-    // Listen for cart updates
-    const handleStorageChange = () => updateCartCount();
-    window.addEventListener('cartUpdated', updateCartCount);
+    // Listen for cart and wishlist updates
+    const handleStorageChange = () => updateCounts();
+    window.addEventListener('cartUpdated', updateCounts);
+    window.addEventListener('wishlistUpdated', updateCounts);
     window.addEventListener('storage', handleStorageChange);
     
     return () => {
-      window.removeEventListener('cartUpdated', updateCartCount);
+      window.removeEventListener('cartUpdated', updateCounts);
+      window.removeEventListener('wishlistUpdated', updateCounts);
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
