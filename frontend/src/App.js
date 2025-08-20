@@ -1,38 +1,86 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { Header } from "./components/Header";
+import { Hero } from "./components/Hero";
+import { ProductGrid } from "./components/ProductGrid";
+import { ShoppingCart } from "./components/ShoppingCart";
+import { Checkout } from "./components/Checkout";
+import { Footer } from "./components/Footer";
+import { Toaster } from "./components/ui/sonner";
+import { mockProducts, cartUtils } from "./mock";
 
 const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [orderComplete, setOrderComplete] = useState(null);
+
+  // Auto-populate cart with 12 items on first load
+  useEffect(() => {
+    const existingCart = cartUtils.getCart();
+    if (existingCart.length === 0) {
+      // Add first 12 products to cart with random quantities
+      mockProducts.slice(0, 12).forEach((product, index) => {
+        const quantity = Math.floor(Math.random() * 3) + 1; // 1-3 items
+        cartUtils.addToCart(product, quantity);
+      });
+      
+      // Trigger cart update event
+      window.dispatchEvent(new CustomEvent('cartUpdated'));
+    }
+  }, []);
+
+  const scrollToProducts = () => {
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+  const handleCartClick = () => {
+    setIsCartOpen(true);
+  };
+
+  const handleCheckout = () => {
+    setIsCheckoutOpen(true);
+  };
+
+  const handleOrderComplete = (orderData) => {
+    setOrderComplete(orderData);
+    setIsCheckoutOpen(false);
+    // You could show a success modal here or redirect to a success page
+  };
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <Header onCartClick={handleCartClick} />
+      
+      {/* Hero Section */}
+      <Hero onShopNowClick={scrollToProducts} />
+      
+      {/* Product Grid */}
+      <ProductGrid />
+      
+      {/* Footer */}
+      <Footer />
+      
+      {/* Shopping Cart Sidebar */}
+      <ShoppingCart 
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        onCheckout={handleCheckout}
+      />
+      
+      {/* Checkout Modal */}
+      <Checkout 
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        onComplete={handleOrderComplete}
+      />
+      
+      {/* Toast Notifications */}
+      <Toaster />
     </div>
   );
 };
