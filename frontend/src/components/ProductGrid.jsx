@@ -163,15 +163,19 @@ export const ProductGrid = () => {
             </Button>
           </div>
 
-          {/* Enhanced Add to Cart Overlay */}
-          <div className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 transition-all duration-500 ${
-            hoveredProduct === product.id ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+          {/* Enhanced Add to Cart Overlay with slide-up animation */}
+          <div className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-all duration-700 ease-out ${
+            hoveredProduct === product.id 
+              ? 'translate-y-0 opacity-100' 
+              : 'translate-y-full opacity-0'
           }`}>
             <Button 
-              className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-xl transform hover:scale-105 transition-all duration-300"
+              className={`w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-xl transform hover:scale-105 transition-all duration-300 hover:shadow-2xl ${
+                hoveredProduct === product.id ? 'animate-pulse' : ''
+              }`}
               onClick={() => handleAddToCart(product)}
             >
-              <ShoppingCart className="mr-2 h-4 w-4" />
+              <ShoppingCart className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
               Add to Cart
             </Button>
           </div>
