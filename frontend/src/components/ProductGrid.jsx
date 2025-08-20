@@ -181,10 +181,19 @@ export const ProductGrid = () => {
           </div>
         </div>
 
-        <CardContent className="p-6 space-y-3">
+        <CardContent className="p-6 space-y-3 relative">
+          {/* Animated background glow on hover */}
+          <div className={`absolute inset-0 bg-gradient-to-br from-orange-50/50 via-transparent to-red-50/50 transition-opacity duration-500 ${
+            hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+          }`} />
+          
           {/* Enhanced Product Info */}
-          <div className="space-y-3">
-            <h3 className="font-bold text-gray-900 line-clamp-2 group-hover:text-orange-600 transition-colors text-lg leading-tight">
+          <div className="space-y-3 relative z-10">
+            <h3 className={`font-bold text-gray-900 line-clamp-2 transition-all duration-300 text-lg leading-tight ${
+              hoveredProduct === product.id 
+                ? 'text-orange-600 transform translate-x-1' 
+                : 'group-hover:text-orange-600'
+            }`}>
               {product.name}
             </h3>
             
