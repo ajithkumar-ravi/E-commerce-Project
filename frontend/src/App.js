@@ -6,10 +6,11 @@ import { Hero } from "./components/Hero";
 import { ProductGrid } from "./components/ProductGrid";
 import { Testimonials } from "./components/Testimonials";
 import { ShoppingCart } from "./components/ShoppingCart";
+import { Wishlist } from "./components/Wishlist";
 import { Checkout } from "./components/Checkout";
 import { Footer } from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
-import { mockProducts, cartUtils } from "./mock";
+import { mockProducts, cartUtils, wishlistUtils } from "./mock";
 
 const Home = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
