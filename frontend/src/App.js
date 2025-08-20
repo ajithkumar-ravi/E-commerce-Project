@@ -14,6 +14,7 @@ import { mockProducts, cartUtils, wishlistUtils } from "./mock";
 
 const Home = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [orderComplete, setOrderComplete] = useState(null);
 
@@ -29,6 +30,19 @@ const Home = () => {
       
       // Trigger cart update event
       window.dispatchEvent(new CustomEvent('cartUpdated'));
+    }
+
+    // Auto-populate wishlist with some items for demo
+    const existingWishlist = wishlistUtils.getWishlist();
+    if (existingWishlist.length === 0) {
+      // Add 3 random products to wishlist for demo
+      const wishlistProducts = [mockProducts[2], mockProducts[5], mockProducts[8]];
+      wishlistProducts.forEach(product => {
+        wishlistUtils.addToWishlist(product);
+      });
+      
+      // Trigger wishlist update event
+      window.dispatchEvent(new CustomEvent('wishlistUpdated'));
     }
   }, []);
 
