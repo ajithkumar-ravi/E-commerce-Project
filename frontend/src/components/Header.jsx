@@ -81,8 +81,21 @@ export const Header = ({ onCartClick, onWishlistClick, onCategoryFilter }) => {
           {/* Right Actions */}
           <div className="flex items-center space-x-2 ml-auto">
             {/* Wishlist */}
-            <Button variant="ghost" size="icon" className="relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={onWishlistClick}
+            >
               <Heart className="h-5 w-5" />
+              {wishlistItemCount > 0 && (
+                <Badge 
+                  variant="secondary"
+                  className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-red-100 text-red-700 border border-red-200"
+                >
+                  {wishlistItemCount}
+                </Badge>
+              )}
             </Button>
 
             {/* Account */}
