@@ -81,9 +81,12 @@ export const ProductGrid = () => {
 
     return (
       <Card 
-        className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white"
+        className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-3 hover:scale-105 bg-white relative"
         onMouseEnter={() => setHoveredProduct(product.id)}
         onMouseLeave={() => setHoveredProduct(null)}
+        style={{
+          transformStyle: 'preserve-3d',
+        }}
       >
         <div className="relative overflow-hidden">
           {/* Enhanced Product Image */}
