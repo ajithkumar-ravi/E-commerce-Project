@@ -283,3 +283,78 @@ export const cartUtils = {
     return cart.reduce((count, item) => count + item.quantity, 0);
   }
 };
+
+// Wishlist utilities for local storage
+export const wishlistUtils = {
+  getWishlist: () => {
+    const wishlist = localStorage.getItem('ecommerce-wishlist');
+    return wishlist ? JSON.parse(wishlist) : [];
+  },
+  
+  setWishlist: (wishlist) => {
+    localStorage.setItem('ecommerce-wishlist', JSON.stringify(wishlist));
+  },
+  
+  addToWishlist: (product) => {
+    const wishlist = wishlistUtils.getWishlist();
+    const existingItem = wishlist.find(item => item.id === product.id);
+    
+    if (!existingItem) {
+      const wishlistItem = {
+        ...product,
+        addedDate: new Date().toISOString()
+      };
+      wishlist.push(wishlistItem);
+      wishlistUtils.setWishlist(wishlist);
+    }
+    
+    return wishlist;
+  },
+  
+  removeFromWishlist: (productId) => {
+    const wishlist = wishlistUtils.getWishlist();
+    const updatedWishlist = wishlist.filter(item => item.id !== productId);
+    wishlistUtils.setWishlist(updatedWishlist);
+    return updatedWishlist;
+  },
+  
+  toggleWishlist: (product) => {
+    const wishlist = wishlistUtils.getWishlist();
+    const existingItem = wishlist.find(item => item.id === product.id);
+    
+    if (existingItem) {
+      return wishlistUtils.removeFromWishlist(product.id);
+    } else {
+      return wishlistUtils.addToWishlist(product);
+    }
+  },
+  
+  isInWishlist: (productId) => {
+    const wishlist = wishlistUtils.getWishlist();
+    return wishlist.some(item => item.id === productId);
+  },
+  
+  clearWishlist: () => {
+    localStorage.removeItem('ecommerce-wishlist');
+    return [];
+  },
+  
+  getWishlistItemCount: () => {
+    const wishlist = wishlistUtils.getWishlist();
+    return wishlist.length;
+  },
+  
+  moveToCart: (productId) => {
+    const wishlist = wishlistUtils.getWishlist();
+    const product = wishlist.find(item => item.id === productId);
+    
+    if (product) {
+      // Add to cart
+      cartUtils.addToCart(product);
+      // Remove from wishlist
+      wishlistUtils.removeFromWishlist(productId);
+      return true;
+    }
+    return false;
+  }
+};
