@@ -124,8 +124,15 @@ export const ProductGrid = () => {
           <div className={`absolute top-3 right-3 flex flex-col gap-2 transition-all duration-300 ${
             hoveredProduct === product.id ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
           }`}>
-            <Button size="icon" variant="secondary" className="bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300">
-              <Heart className="h-4 w-4 text-red-500" />
+            <Button 
+              size="icon" 
+              variant="secondary" 
+              className={`bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 ${
+                isInWishlist ? 'text-red-500' : 'text-gray-500'
+              }`}
+              onClick={() => handleToggleWishlist(product)}
+            >
+              <Heart className={`h-4 w-4 ${isInWishlist ? 'fill-current' : ''}`} />
             </Button>
             <Button size="icon" variant="secondary" className="bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300">
               <Eye className="h-4 w-4 text-blue-500" />
