@@ -84,6 +84,65 @@
   }
 }
 
+@keyframes tilt {
+  0% {
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+    transform: rotateY(1deg) rotateX(1deg);
+  }
+  50% {
+    transform: rotateY(-1deg) rotateX(-1deg);
+  }
+  75% {
+    transform: rotateY(1deg) rotateX(-1deg);
+  }
+  100% {
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+}
+
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.15), 0 4px 15px rgba(220, 38, 38, 0.1);
+  }
+  100% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.15);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out forwards;
 }
@@ -114,6 +173,22 @@
   background-size: 1000px 100%;
 }
 
+.animate-tilt {
+  animation: tilt 3s ease-in-out infinite;
+}
+
+.animate-cardGlow {
+  animation: cardGlow 2s ease-in-out infinite;
+}
+
+.animate-heartBeat {
+  animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
 /* Custom gradient text animations */
 @keyframes gradientShift {
   0% {
@@ -132,10 +207,24 @@
   animation: gradientShift 3s ease infinite;
 }
 
+/* Enhanced hover effects for cards */
+.card-hover-3d {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.card-hover-3d:hover {
+  transform: translateY(-10px) rotateX(10deg) rotateY(5deg) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(249, 115, 22, 0.1),
+    0 0 0 1px rgba(249, 115, 22, 0.05);
+}
+
 /* Smooth transitions for all interactive elements */
 * {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, 
-              box-shadow 0.2s ease, opacity 0.2s ease;
+              box-shadow 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
 /* Enhanced button hover effects */
@@ -146,6 +235,26 @@ button:hover {
 button:active {
   transform: translateY(0);
 }
+
+/* Product card specific animations */
+.product-card {
+  perspective: 1000px;
+}
+
+.product-card:hover .product-image {
+  transform: rotateY(5deg) scale(1.05);
+}
+
+.product-card:hover .product-info {
+  transform: translateZ(20px);
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
