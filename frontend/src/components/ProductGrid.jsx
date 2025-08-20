@@ -228,20 +228,32 @@ export const ProductGrid = () => {
               </span>
             </div>
 
-            {/* Enhanced Price */}
+            {/* Enhanced Price with animation */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-xl font-bold text-gray-900">
+              <div className={`flex items-center gap-3 transition-all duration-300 ${
+                hoveredProduct === product.id ? 'transform translate-x-1' : ''
+              }`}>
+                <span className={`text-xl font-bold transition-all duration-300 ${
+                  hoveredProduct === product.id 
+                    ? 'text-orange-600 scale-110' 
+                    : 'text-gray-900'
+                }`}>
                   ${product.price}
                 </span>
                 {product.originalPrice && product.originalPrice > product.price && (
-                  <span className="text-sm text-gray-500 line-through">
+                  <span className={`text-sm line-through transition-all duration-300 ${
+                    hoveredProduct === product.id ? 'text-red-400' : 'text-gray-500'
+                  }`}>
                     ${product.originalPrice}
                   </span>
                 )}
               </div>
               {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-sm font-bold text-green-600">
+                <span className={`text-sm font-bold transition-all duration-300 ${
+                  hoveredProduct === product.id 
+                    ? 'text-green-600 scale-110 animate-pulse' 
+                    : 'text-green-600'
+                }`}>
                   Save ${(product.originalPrice - product.price).toFixed(2)}
                 </span>
               )}
