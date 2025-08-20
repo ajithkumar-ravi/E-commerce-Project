@@ -132,22 +132,34 @@ export const ProductGrid = () => {
             </div>
           )}
 
-          {/* Enhanced Quick Actions */}
-          <div className={`absolute top-3 right-3 flex flex-col gap-2 transition-all duration-300 ${
+          {/* Enhanced Quick Actions with staggered animation */}
+          <div className={`absolute top-3 right-3 flex flex-col gap-2 transition-all duration-500 ${
             hoveredProduct === product.id ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
           }`}>
             <Button 
               size="icon" 
               variant="secondary" 
-              className={`bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 ${
-                isInWishlist ? 'text-red-500' : 'text-gray-500'
+              className={`bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-125 transition-all duration-300 hover:rotate-12 ${
+                isInWishlist ? 'text-red-500 shadow-red-200' : 'text-gray-500'
               }`}
               onClick={() => handleToggleWishlist(product)}
+              style={{
+                animationDelay: hoveredProduct === product.id ? '100ms' : '0ms'
+              }}
             >
-              <Heart className={`h-4 w-4 ${isInWishlist ? 'fill-current' : ''}`} />
+              <Heart className={`h-4 w-4 transition-all duration-300 ${
+                isInWishlist ? 'fill-current scale-110' : 'hover:scale-110'
+              }`} />
             </Button>
-            <Button size="icon" variant="secondary" className="bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300">
-              <Eye className="h-4 w-4 text-blue-500" />
+            <Button 
+              size="icon" 
+              variant="secondary" 
+              className="bg-white/95 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transform hover:scale-125 transition-all duration-300 hover:-rotate-12"
+              style={{
+                animationDelay: hoveredProduct === product.id ? '200ms' : '0ms'
+              }}
+            >
+              <Eye className="h-4 w-4 text-blue-500 hover:text-blue-600 transition-colors duration-300" />
             </Button>
           </div>
 
