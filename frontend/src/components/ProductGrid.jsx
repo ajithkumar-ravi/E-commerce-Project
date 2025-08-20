@@ -77,6 +77,8 @@ export const ProductGrid = () => {
       ? Math.round((1 - product.price / product.originalPrice) * 100)
       : 0;
 
+    const isInWishlist = wishlistUtils.isInWishlist(product.id);
+
     return (
       <Card 
         className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white"
