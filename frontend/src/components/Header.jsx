@@ -40,29 +40,29 @@ export const Header = ({ onCartClick, onCategoryFilter }) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center mr-12">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
               ShopHub
             </h1>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8 mr-8">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 whitespace-nowrap"
               >
                 {item.name}
               </a>
             ))}
           </nav>
 
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex items-center space-x-4 flex-1 max-w-md mx-8">
+          {/* Search Bar - Desktop - Takes remaining space */}
+          <div className="hidden md:flex items-center flex-1 max-w-sm mr-8">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
@@ -75,7 +75,7 @@ export const Header = ({ onCartClick, onCategoryFilter }) => {
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 ml-auto">
             {/* Wishlist */}
             <Button variant="ghost" size="icon" className="relative">
               <Heart className="h-5 w-5" />
@@ -108,7 +108,7 @@ export const Header = ({ onCartClick, onCategoryFilter }) => {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="lg:hidden ml-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
