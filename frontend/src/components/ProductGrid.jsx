@@ -197,26 +197,33 @@ export const ProductGrid = () => {
               {product.name}
             </h3>
             
-            {/* Enhanced Rating */}
+            {/* Enhanced Rating with hover animation */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`h-4 w-4 transition-colors duration-300 ${
+                      className={`h-4 w-4 transition-all duration-300 ${
                         i < Math.floor(product.rating)
-                          ? 'fill-orange-400 text-orange-400'
+                          ? 'fill-orange-400 text-orange-400 hover:scale-125'
                           : 'text-gray-300'
-                      }`}
+                      } ${hoveredProduct === product.id ? 'animate-pulse' : ''}`}
+                      style={{
+                        animationDelay: `${i * 50}ms`
+                      }}
                     />
                   ))}
                 </div>
-                <span className="text-sm text-gray-600 font-medium">
+                <span className={`text-sm font-medium transition-all duration-300 ${
+                  hoveredProduct === product.id ? 'text-orange-600 font-bold' : 'text-gray-600'
+                }`}>
                   {product.rating}
                 </span>
               </div>
-              <span className="text-xs text-gray-500">
+              <span className={`text-xs transition-all duration-300 ${
+                hoveredProduct === product.id ? 'text-gray-700 font-medium' : 'text-gray-500'
+              }`}>
                 ({product.reviews} reviews)
               </span>
             </div>
