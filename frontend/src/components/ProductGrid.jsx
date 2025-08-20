@@ -259,14 +259,27 @@ export const ProductGrid = () => {
               )}
             </div>
 
-            {/* Enhanced Category Badge */}
+            {/* Enhanced Category Badge and Stock Status */}
             <div className="flex justify-between items-center">
-              <Badge variant="outline" className="text-xs font-semibold border-orange-200 text-orange-700 bg-orange-50">
+              <Badge 
+                variant="outline" 
+                className={`text-xs font-semibold border-orange-200 text-orange-700 bg-orange-50 transition-all duration-300 ${
+                  hoveredProduct === product.id 
+                    ? 'bg-orange-100 border-orange-300 scale-105' 
+                    : ''
+                }`}
+              >
                 {product.category}
               </Badge>
               {product.inStock && (
-                <span className="text-xs text-green-600 font-semibold flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className={`text-xs font-semibold flex items-center gap-1 transition-all duration-300 ${
+                  hoveredProduct === product.id 
+                    ? 'text-green-600 scale-105' 
+                    : 'text-green-600'
+                }`}>
+                  <div className={`w-2 h-2 bg-green-500 rounded-full transition-all duration-300 ${
+                    hoveredProduct === product.id ? 'animate-ping' : 'animate-pulse'
+                  }`}></div>
                   In Stock
                 </span>
               )}
