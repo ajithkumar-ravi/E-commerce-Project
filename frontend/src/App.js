@@ -74,7 +74,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <Header onCartClick={handleCartClick} />
+      <Header onCartClick={handleCartClick} onWishlistClick={handleWishlistClick} />
       
       {/* Hero Section */}
       <Hero onShopNowClick={scrollToProducts} />
@@ -93,6 +93,12 @@ const Home = () => {
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         onCheckout={handleCheckout}
+      />
+      
+      {/* Wishlist Sidebar */}
+      <Wishlist 
+        isOpen={isWishlistOpen}
+        onClose={() => setIsWishlistOpen(false)}
       />
       
       {/* Checkout Modal */}
