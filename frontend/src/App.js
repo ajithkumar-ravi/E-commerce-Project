@@ -57,6 +57,10 @@ const Home = () => {
     setIsCartOpen(true);
   };
 
+  const handleWishlistClick = () => {
+    setIsWishlistOpen(true);
+  };
+
   const handleCheckout = () => {
     setIsCheckoutOpen(true);
   };
